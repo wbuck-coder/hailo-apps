@@ -138,7 +138,7 @@ def SOURCE_PIPELINE(
             # and when explicitly requested. v4l2loopback does not support JPEG output.
             source_element = (
                 f'v4l2src device={video_source} name={name} ! '
-                f'video/x-raw, width=640, height=480 ! '
+                f'video/x-raw, width=1280, height=720, format=UYVY, framerate=30/1 ! '
             )
         else:
             # Use compressed format for webcam

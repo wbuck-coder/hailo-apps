@@ -132,7 +132,7 @@ class GStreamerDetectionApp(GStreamerApp):
         hailo_logger.debug("Pipeline created")
 
     def get_pipeline_string(self):
-        source_pipeline = self.get_source_pipeline()
+        source_pipeline = self.get_source_pipeline(no_webcam_compression=True)
         detection_pipeline = INFERENCE_PIPELINE(
             hef_path=self.hef_path,
             post_process_so=self.post_process_so,
@@ -148,15 +148,18 @@ class GStreamerDetectionApp(GStreamerApp):
             video_sink=self.video_sink, sync=self.sync, show_fps=self.show_fps
         )
 
-        pipeline_string = (
+        pipeline = (
             f"{source_pipeline} ! "
             f"{detection_pipeline_wrapper} ! "
             f"{tracker_pipeline} ! "
             f"{user_callback_pipeline} ! "
             f"{display_pipeline}"
         )
-        hailo_logger.debug("Pipeline string: %s", pipeline_string)
-        return pipeline_string
+        print("\n==== FULL GSTREAMER PIPELINE =====")
+        print(pipeline)
+        print("===== END PIPELINE =====\n")
+
+        return pipeline
 
 
 def main():
